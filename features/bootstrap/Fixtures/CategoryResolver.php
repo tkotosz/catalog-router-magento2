@@ -2,7 +2,6 @@
 
 namespace Fixtures;
 
-use Fixtures\CatalogRouter\StoreManager;
 use Tkotosz\CatalogRouter\Api\CategoryResolverInterface;
 use Tkotosz\CatalogRouter\Model\CatalogEntity;
 use Tkotosz\CatalogRouter\Model\Exception\CatalogEntityNotFoundException;
