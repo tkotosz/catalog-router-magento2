@@ -3,8 +3,17 @@
     "description": "Tkotosz - Catalog Router",
     "type": "magento2-module",
     "version": "1.0.0",
+    "repositories": {
+        "magento-repo": {
+            "type": "composer",
+            "url": "https://repo.magento.com/"
+        }
+    },
     "require": {
-        "php": ">=7.0"
+        "php": ">=7.0",
+        "magento/framework": "^100.1",
+        "magento/module-catalog": "^101.0",
+        "magento/module-catalog-url-rewrite": "^100.1"
     },
     "require-dev": {
         "behat/behat": "^3.3"
@@ -15,7 +24,7 @@
     },
     "autoload": {
         "files": [
-            "src/registration.php"
+            "src/Tkotosz/CatalogRouter/registration.php"
         ],
         "psr-0": {
             "Tkotosz\\CatalogRouter\\": "src"
