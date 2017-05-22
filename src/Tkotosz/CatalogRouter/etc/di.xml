@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Tkotosz\CatalogRouter\Api\CatalogUrlProviderInterface" type="Tkotosz\CatalogRouter\Model\Service\CatalogUrlProvider" />
+    <preference for="Tkotosz\CatalogRouter\Api\CategoryResolverInterface" type="Tkotosz\CatalogRouter\Model\Service\CategoryResolver\CachedCategoryResolver" />
+    <preference for="Tkotosz\CatalogRouter\Api\ProductResolverInterface" type="Tkotosz\CatalogRouter\Model\Service\ProductResolver\CachedProductResolver" />
+
+    <type name="Tkotosz\CatalogRouter\Model\Service\CategoryResolver\CachedCategoryResolver">
+        <arguments>
+            <argument name="categoryResolver" xsi:type="object">Tkotosz\CatalogRouter\Model\Service\CategoryResolver\CategoryResolver</argument>
+            <argument name="cache" xsi:type="object">Tkotosz\CatalogRouter\Model\Service\Cache\InMemoryCache</argument>
+        </arguments>
+    </type>
+
+    <type name="Tkotosz\CatalogRouter\Model\Service\ProductResolver\CachedProductResolver">
+        <arguments>
+            <argument name="productResolver" xsi:type="object">Tkotosz\CatalogRouter\Model\Service\ProductResolver\ProductResolver</argument>
+            <argument name="cache" xsi:type="object">Tkotosz\CatalogRouter\Model\Service\Cache\InMemoryCache</argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\Catalog\Model\Product\Url">
+        <plugin name="catalogrouter.plugin.product.url" type="Tkotosz\CatalogRouter\Plugin\ProductUrl" />
+    </type>
+    <type name="Magento\Catalog\Model\Category">
+        <plugin name="catalogrouter.plugin.categor.url" type="Tkotosz\CatalogRouter\Plugin\CategoryUrl" />
+    </type>
+</config>
