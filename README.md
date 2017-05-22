@@ -1,6 +1,5 @@
-# catalog-router-magento2
 Catalog Router module for Magento 2
-
+=========================
 [![License](https://poser.pugx.org/bex/behat-screenshot/license)](https://packagist.org/packages/tkotosz/catalog-router-magento2)
 [![Latest Stable Version](https://poser.pugx.org/tkotosz/catalog-router-magento2/version)](https://packagist.org/packages/tkotosz/catalog-router-magento2)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/tkotosz/catalog-router-magento2/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/tkotosz/catalog-router-magento2/?branch=master)
