@@ -6,7 +6,6 @@ use Tkotosz\CatalogRouter\Api\CatalogUrlProviderInterface;
 use Tkotosz\CatalogRouter\Api\CategoryResolverInterface;
 use Tkotosz\CatalogRouter\Api\ProductResolverInterface;
 use Magento\Framework\UrlInterface;
-use Magento\Framework\Url;
 use Magento\Store\Model\StoreManagerInterface;
 
 class CatalogUrlProvider implements CatalogUrlProviderInterface
@@ -22,7 +21,7 @@ class CatalogUrlProvider implements CatalogUrlProviderInterface
     private $productResolver;
     
     /**
-     * @var Url
+     * @var UrlInterface
      */
     private $urlProvider;
     
@@ -34,13 +33,13 @@ class CatalogUrlProvider implements CatalogUrlProviderInterface
     /**
      * @param CategoryResolverInterface $categoryResolver
      * @param ProductResolverInterface  $productResolver
-     * @param Url              $urlProvider
+     * @param UrlInterface              $urlProvider
      * @param StoreManagerInterface     $storeManager
      */
     public function __construct(
         CategoryResolverInterface $categoryResolver,
         ProductResolverInterface $productResolver,
-        Url $urlProvider,
+        UrlInterface $urlProvider,
         StoreManagerInterface $storeManager
     ) {
         $this->categoryResolver = $categoryResolver;

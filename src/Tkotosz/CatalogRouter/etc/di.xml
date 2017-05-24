@@ -18,6 +18,12 @@
         </arguments>
     </type>
 
+    <type name="Tkotosz\CatalogRouter\Model\Service\CatalogUrlProvider">
+        <arguments>
+            <argument name="urlProvider" xsi:type="object">Magento\Framework\Url</argument>
+        </arguments>
+    </type>
+
     <type name="Magento\Catalog\Model\Product\Url">
         <plugin name="catalogrouter.plugin.product.url" type="Tkotosz\CatalogRouter\Plugin\ProductUrl" />
     </type>
