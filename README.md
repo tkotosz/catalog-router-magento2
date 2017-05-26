@@ -5,8 +5,7 @@ Catalog Router module for Magento 2
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/tkotosz/catalog-router-magento2/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/tkotosz/catalog-router-magento2/?branch=master)
 [![Build Status](https://scrutinizer-ci.com/g/tkotosz/catalog-router-magento2/badges/build.png?b=master)](https://scrutinizer-ci.com/g/tkotosz/catalog-router-magento2/build-status/master)
 
-This module disables the functionality of the Catalog Url Rewrite module. It still allows to manually create rewrites/redirects in the admin using that module. But it will disable the automatic rewrite/redirect generation.
-Instead of that this module will take over the responsibility of catalog url routing, so all category and product url will be handled by this module. (Including url rendering and routing).
+This module disables the functionality of the Catalog Url Rewrite module and takes over the responsibility of url rendering and routing (so all category and product url will be handled by this module). It still allows to manually create rewrites/redirects in the admin using the default Catalog Url Rewrite module, but it will disable the automatic rewrite/redirect generation.
 
 Note that:
 - it was only tested in magento 2.1.6 env
