@@ -76,15 +76,16 @@ class CachedCategoryResolver implements CategoryResolverInterface
 
     /**
      * @param int $categoryId
+     * @param int $storeId
      *
      * @return int[]
      */
-    public function resolveParentIds(int $categoryId) : array
+    public function resolveParentIds(int $categoryId, int $storeId) : array
     {
-        $cacheKey = implode('_', [self::CACHE_KEY_RESOLVE_PARENT_IDS, $categoryId]);
+        $cacheKey = implode('_', [self::CACHE_KEY_RESOLVE_PARENT_IDS, $categoryId, $storeId]);
 
         if (!$this->cache->has($cacheKey)) {
-            $data = $this->categoryResolver->resolveParentIds($categoryId);
+            $data = $this->categoryResolver->resolveParentIds($categoryId, $storeId);
             $this->cache->set($cacheKey, $data);
         }
         

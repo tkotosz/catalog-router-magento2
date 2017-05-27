@@ -2,6 +2,7 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
     <event name="catalog_category_save_after">
         <observer name="process_url_rewrite_saving" instance="Magento\CatalogUrlRewrite\Observer\CategoryProcessUrlRewriteSavingObserver" disabled="true"/>
+        <observer name="catalog_router_validate_url_path" instance="Tkotosz\CatalogRouter\Observer\CategoryUrlPathValidatorObserver"/>
     </event>
     <event name="catalog_category_move_after">
         <observer name="process_url_rewrite_moving" instance="Magento\CatalogUrlRewrite\Observer\CategoryProcessUrlRewriteMovingObserver" disabled="true"/>

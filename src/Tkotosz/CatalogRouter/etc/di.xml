@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Tkotosz\CatalogRouter\Api\CatalogUrlPathProviderInterface" type="Tkotosz\CatalogRouter\Model\Service\CatalogUrlPathProvider" />
     <preference for="Tkotosz\CatalogRouter\Api\CatalogUrlProviderInterface" type="Tkotosz\CatalogRouter\Model\Service\CatalogUrlProvider" />
     <preference for="Tkotosz\CatalogRouter\Api\CategoryResolverInterface" type="Tkotosz\CatalogRouter\Model\Service\CategoryResolver\CachedCategoryResolver" />
     <preference for="Tkotosz\CatalogRouter\Api\ProductResolverInterface" type="Tkotosz\CatalogRouter\Model\Service\ProductResolver\CachedProductResolver" />

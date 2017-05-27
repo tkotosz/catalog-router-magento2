@@ -2,24 +2,18 @@
 
 namespace Tkotosz\CatalogRouter\Model\Service;
 
-use Tkotosz\CatalogRouter\Api\CatalogUrlProviderInterface;
-use Tkotosz\CatalogRouter\Api\CategoryResolverInterface;
-use Tkotosz\CatalogRouter\Api\ProductResolverInterface;
 use Magento\Framework\UrlInterface;
 use Magento\Store\Model\StoreManagerInterface;
+use Tkotosz\CatalogRouter\Api\CatalogUrlPathProviderInterface;
+use Tkotosz\CatalogRouter\Api\CatalogUrlProviderInterface;
 
 class CatalogUrlProvider implements CatalogUrlProviderInterface
-{
+{   
     /**
-     * @var CategoryResolverInterface
+     * @var CatalogUrlPathProviderInterface
      */
-    private $categoryResolver;
-    
-    /**
-     * @var ProductResolverInterface
-     */
-    private $productResolver;
-    
+    private $catalogUrlPathProvider;
+   
     /**
      * @var UrlInterface
      */
@@ -31,19 +25,16 @@ class CatalogUrlProvider implements CatalogUrlProviderInterface
     private $storeManager;
     
     /**
-     * @param CategoryResolverInterface $categoryResolver
-     * @param ProductResolverInterface  $productResolver
-     * @param UrlInterface              $urlProvider
-     * @param StoreManagerInterface     $storeManager
+     * @param CatalogUrlPathProviderInterface $catalogUrlPathProvider
+     * @param UrlInterface                    $urlProvider
+     * @param StoreManagerInterface           $storeManager
      */
     public function __construct(
-        CategoryResolverInterface $categoryResolver,
-        ProductResolverInterface $productResolver,
+        CatalogUrlPathProviderInterface $catalogUrlPathProvider,
         UrlInterface $urlProvider,
         StoreManagerInterface $storeManager
     ) {
-        $this->categoryResolver = $categoryResolver;
-        $this->productResolver = $productResolver;
+        $this->catalogUrlPathProvider = $catalogUrlPathProvider;
         $this->urlProvider = $urlProvider;
         $this->storeManager = $storeManager;
     }
@@ -57,15 +48,9 @@ class CatalogUrlProvider implements CatalogUrlProviderInterface
      */
     public function getCategoryUrl(int $categoryId, int $storeId, array $params = []) : string
     {
-        $urlPath = '';
+        $urlPath = $this->catalogUrlPathProvider->getCategoryUrlPath($categoryId, $storeId);
 
-        foreach ($this->categoryResolver->resolveParentIds($categoryId) as $parentCategoryId) {
-            $urlPath .= '/' . $this->categoryResolver->resolveById($parentCategoryId, $storeId)->getUrlKey();
-        }
-
-        $urlPath .= '/' . $this->categoryResolver->resolveById($categoryId, $storeId)->getUrlKey();
-
-        return $this->getUrl($urlPath, $storeId, $params);
+        return $this->getUrl($urlPath->getFullPath(), $storeId, $params);
     }
 
     /**
@@ -77,9 +62,9 @@ class CatalogUrlProvider implements CatalogUrlProviderInterface
      */
     public function getProductUrl(int $productId, int $storeId, array $params = []) : string
     {
-        $product = $this->productResolver->resolveById($productId, $storeId);
+        $urlPath = $this->catalogUrlPathProvider->getProductUrlPath($productId, $storeId);
 
-        return $this->getUrl($product->getUrlKey(), $storeId, $params);
+        return $this->getUrl($urlPath->getFullPath(), $storeId, $params);
     }
 
     /**

@@ -25,8 +25,9 @@ interface CategoryResolverInterface
 
     /**
      * @param int $categoryId
+     * @param int $storeId
      *
      * @return int[]
      */
-    public function resolveParentIds(int $categoryId) : array;
+    public function resolveParentIds(int $categoryId, int $storeId) : array;
 }

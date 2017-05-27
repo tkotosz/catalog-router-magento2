@@ -37,7 +37,7 @@ class CmsPageUrlPathChecker implements UrlPathUsedChecker
             ->addFieldToFilter('identifier', $urlPath->getLastPart());
 
         foreach ($pageCollection as $page) {
-            $result[] = new EntityData('cms page', $page->getId());    
+            $result[] = new EntityData('cms page', $page->getId(), $urlPath->getLastPart());    
         }
 
         return $result;

@@ -103,10 +103,11 @@ class CategoryResolver implements CategoryResolverInterface
 
     /**
      * @param int $categoryId
+     * @param int $storeId
      *
      * @return int[]
      */
-    public function resolveParentIds(int $categoryId) : array
+    public function resolveParentIds(int $categoryId, int $storeId) : array
     {
         $idPath = $this->categoryCollectionFactory->create()
             ->addFieldToSelect('path')
@@ -123,7 +124,7 @@ class CategoryResolver implements CategoryResolverInterface
         $toIgnore = [
             Category::TREE_ROOT_ID,
             Category::ROOT_CATEGORY_ID,
-            $this->storeManager->getStore()->getRootCategoryId(),
+            $this->storeManager->getStore($storeId)->getRootCategoryId(),
             $categoryId
         ];
         

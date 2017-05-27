@@ -5,6 +5,7 @@ namespace Tkotosz\CatalogRouter\Observer;
 use Magento\Catalog\Model\Product;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Store\Model\StoreManagerInterface;
 use Tkotosz\CatalogRouter\Api\CatalogUrlPathProviderInterface;
 use Tkotosz\CatalogRouter\Api\ProductResolverInterface;
@@ -12,7 +13,7 @@ use Tkotosz\CatalogRouter\Model\EntityData;
 use Tkotosz\CatalogRouter\Model\Service\UrlPathUsedCheckerContainer;
 use Tkotosz\CatalogRouter\Model\UrlPath;
 
-class ProductUrlPathValidatorObserver implements ObserverInterface
+class CategoryUrlPathValidatorObserver implements ObserverInterface
 {
     /**
      * @var UrlPathUsedCheckerContainer
@@ -34,11 +35,8 @@ class ProductUrlPathValidatorObserver implements ObserverInterface
      * @param StoreManagerInterface           $storeManager
      * @param CatalogUrlPathProviderInterface $urlPathProvider
      */
-    public function __construct(
-        UrlPathUsedCheckerContainer $urlPathUsedChecker,
-        StoreManagerInterface $storeManager,
-        CatalogUrlPathProviderInterface $urlPathProvider
-    ) {
+    public function __construct(UrlPathUsedCheckerContainer $urlPathUsedChecker, StoreManagerInterface $storeManager, CatalogUrlPathProviderInterface $urlPathProvider)
+    {
         $this->urlPathUsedChecker = $urlPathUsedChecker;
         $this->storeManager = $storeManager;
         $this->urlPathProvider = $urlPathProvider;
@@ -50,18 +48,19 @@ class ProductUrlPathValidatorObserver implements ObserverInterface
      */
     public function execute(Observer $observer)
     {
-        /** @var Product $product */
-        $product = $observer->getEvent()->getProduct();
+        /** @var Category $category */
+        $category = $observer->getEvent()->getCategory();
 
-        foreach ($product->getStoreIds() as $storeId) {
-            $urlPath = $this->urlPathProvider->getProductUrlPath($product->getId(), $storeId);
+        foreach ($category->getStoreIds() as $storeId) {
+            if (!$storeId) continue;
+            $urlPath = $this->urlPathProvider->getCategoryUrlPath($category->getId(), $storeId);
             $resolvedEntities = $this->urlPathUsedChecker->check($urlPath, $storeId);
 
             if (count($resolvedEntities) > 1) {
                 $store = $this->storeManager->getStore($storeId);
                 $messages = [];
                 foreach ($resolvedEntities as $entity) {
-                    if ($entity->getType() == 'product' && $entity->getId() == $product->getId()) {
+                    if ($entity->getType() == 'category' && $entity->getId() == $category->getId()) {
                         continue;
                     }
                     $messages[] = __(
@@ -74,7 +73,7 @@ class ProductUrlPathValidatorObserver implements ObserverInterface
                     );
                 }
 
-                throw new \Exception(join("<br>", $messages));
+                throw new \Magento\Framework\Exception\AlreadyExistsException(__(join("<br>", $messages)));
             }
         }
     }
