@@ -57,6 +57,29 @@ class CategoryResolver implements CategoryResolverInterface
     }
 
     /**
+     * @param string $urlKey
+     * @param int    $storeId
+     * @param int    $parentId
+     *
+     * @return CatalogEntity[]
+     */
+    public function resolveAllByUrlKey(string $urlKey, int $storeId, int $parentId) : array
+    {
+        $categories = [];
+        
+        $categoryCollection = $this->categoryCollectionFactory->create()
+            ->setStoreId($storeId)
+            ->addAttributeToFilter('url_key', $urlKey)
+            ->addFieldToFilter('parent_id', $parentId);
+
+        foreach ($categoryCollection as $category) {
+            $categories[] = new CatalogEntity('category', $category->getId(), $urlKey);        
+        }
+
+        return $categories;
+    }
+
+    /**
      * @param int $categoryId
      * @param int $storeId
      *
@@ -99,6 +122,7 @@ class CategoryResolver implements CategoryResolverInterface
 
         $toIgnore = [
             Category::TREE_ROOT_ID,
+            Category::ROOT_CATEGORY_ID,
             $this->storeManager->getStore()->getRootCategoryId(),
             $categoryId
         ];

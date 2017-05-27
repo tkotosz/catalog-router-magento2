@@ -55,6 +55,17 @@ class CachedProductResolver implements ProductResolverInterface
     }
 
     /**
+     * @param string $urlKey
+     * @param int    $storeId
+     *
+     * @return CatalogEntity[]
+     */
+    public function resolveAllByUrlKey(string $urlKey, int $storeId) : array
+    {
+        return $this->productResolver->resolveAllByUrlKey($urlKey, $storeId);
+    }
+
+    /**
      * @param int $productId
      * @param int $storeId
      *

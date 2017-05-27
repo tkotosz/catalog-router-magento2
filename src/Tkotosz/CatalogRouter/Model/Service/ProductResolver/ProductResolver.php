@@ -55,6 +55,27 @@ class ProductResolver implements ProductResolverInterface
     }
 
     /**
+     * @param string $urlKey
+     * @param int    $storeId
+     *
+     * @return CatalogEntity[]
+     */
+    public function resolveAllByUrlKey(string $urlKey, int $storeId) : array
+    {
+        $products = [];
+
+        $productCollection = $this->productCollectionFactory->create()
+            ->addStoreFilter($storeId)
+            ->addAttributeToFilter('url_key', $urlKey);
+
+        foreach ($productCollection as $product) {
+            $products[] = new CatalogEntity('product', $product->getId(), $urlKey);        
+        }
+
+        return $products;
+    }
+
+    /**
      * @param int $productId
      * @param int $storeId
      *

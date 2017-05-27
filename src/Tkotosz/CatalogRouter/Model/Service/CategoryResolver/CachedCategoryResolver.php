@@ -51,6 +51,11 @@ class CachedCategoryResolver implements CategoryResolverInterface
         return $this->cache->get($cacheKey);
     }
 
+    public function resolveAllByUrlKey(string $urlKey, int $storeId, int $parentId) : array
+    {
+        return $this->categoryResolver->resolveAllByUrlKey($urlKey, $storeId, $parentId);
+    }
+
     /**
      * @param int $categoryId
      * @param int $storeId

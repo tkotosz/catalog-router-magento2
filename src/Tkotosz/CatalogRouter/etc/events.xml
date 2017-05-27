@@ -17,5 +17,6 @@
     </event>
     <event name="catalog_product_save_after">
         <observer name="process_url_rewrite_saving" instance="Magento\CatalogUrlRewrite\Observer\ProductProcessUrlRewriteSavingObserver" disabled="true"/>
+        <observer name="catalog_router_validate_url_path" instance="Tkotosz\CatalogRouter\Observer\ProductUrlPathValidatorObserver"/>
     </event>
 </config>

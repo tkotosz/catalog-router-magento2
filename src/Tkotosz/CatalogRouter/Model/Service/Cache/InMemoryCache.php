@@ -11,16 +11,30 @@ class InMemoryCache implements CacheInterface
      */
     private $cache;
 
+    /**
+     * @param string $key
+     * @param mixed  $value
+     */
     public function set(string $key, $value)
     {
         $this->cache[$key] = $value;
     }
 
-    public function has(string $key)
+    /**
+     * @param string $key
+     *
+     * @return boolean
+     */
+    public function has(string $key) : bool
     {
         return isset($this->cache[$key]);
     }
 
+    /**
+     * @param string $key
+     *
+     * @return mixed
+     */
     public function get(string $key)
     {
         if (!isset($this->cache[$key])) {

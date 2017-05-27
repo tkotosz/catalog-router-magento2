@@ -24,6 +24,16 @@
         </arguments>
     </type>
 
+    <type name="Tkotosz\CatalogRouter\Model\Service\UrlPathUsedCheckerContainer">
+        <arguments>
+            <argument name="checkers" xsi:type="array">
+                <item name="product_url_path_checker" xsi:type="object">Tkotosz\CatalogRouter\Model\Service\UrlPathUsedChecker\ProductUrlPathChecker</item>
+                <item name="category_url_path_checker" xsi:type="object">Tkotosz\CatalogRouter\Model\Service\UrlPathUsedChecker\CategoryUrlPathChecker</item>
+                <item name="cms_page_url_path_checker" xsi:type="object">Tkotosz\CatalogRouter\Model\Service\UrlPathUsedChecker\CmsPageUrlPathChecker</item>
+            </argument>
+        </arguments>
+    </type>
+
     <type name="Magento\Catalog\Model\Product\Url">
         <plugin name="catalogrouter.plugin.product.url" type="Tkotosz\CatalogRouter\Plugin\ProductUrl" />
     </type>
