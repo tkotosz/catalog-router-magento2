@@ -59,7 +59,7 @@ class CategoryResolver implements CategoryResolverInterface
      *
      * @return int[]
      */
-    public function resolveParentIds(int $categoryId) : array
+    public function resolveParentIds(int $categoryId, int $storeId) : array
     {
         throw new \Exception(__METHOD__ . 'Method not implemented');
     }
