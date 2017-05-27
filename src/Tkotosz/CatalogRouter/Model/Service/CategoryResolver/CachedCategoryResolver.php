@@ -4,7 +4,7 @@ namespace Tkotosz\CatalogRouter\Model\Service\CategoryResolver;
 
 use Tkotosz\CatalogRouter\Api\CacheInterface;
 use Tkotosz\CatalogRouter\Api\CategoryResolverInterface;
-use Tkotosz\CatalogRouter\Model\CatalogEntity;
+use Tkotosz\CatalogRouter\Model\EntityData;
 
 class CachedCategoryResolver implements CategoryResolverInterface
 {
@@ -37,9 +37,9 @@ class CachedCategoryResolver implements CategoryResolverInterface
      * @param int    $storeId
      * @param int    $parentId
      *
-     * @return CatalogEntity
+     * @return EntityData
      */
-    public function resolveByUrlKey(string $urlKey, int $storeId, int $parentId) : CatalogEntity
+    public function resolveByUrlKey(string $urlKey, int $storeId, int $parentId) : EntityData
     {
         $cacheKey = implode('_', [self::CACHE_KEY_RESOLVE_BY_URL_KEY, $urlKey, $storeId, $parentId]);
 
@@ -60,9 +60,9 @@ class CachedCategoryResolver implements CategoryResolverInterface
      * @param int $categoryId
      * @param int $storeId
      *
-     * @return CatalogEntity
+     * @return EntityData
      */
-    public function resolveById(int $categoryId, int $storeId) : CatalogEntity
+    public function resolveById(int $categoryId, int $storeId) : EntityData
     {
         $cacheKey = implode('_', [self::CACHE_KEY_RESOLVE_BY_ID, $storeId, $categoryId]);
 

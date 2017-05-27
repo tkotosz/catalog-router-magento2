@@ -4,7 +4,7 @@ namespace Tkotosz\CatalogRouter\Model\Service;
 
 use Tkotosz\CatalogRouter\Api\UrlPathUsedChecker;
 use Tkotosz\CatalogRouter\Model\UrlPath;
-use Tkotosz\CatalogRouter\Model\UrlPathUsageInfo;
+use Tkotosz\CatalogRouter\Model\EntityData;
 
 class UrlPathUsedCheckerContainer
 {

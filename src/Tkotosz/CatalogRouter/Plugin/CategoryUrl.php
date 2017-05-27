@@ -3,7 +3,7 @@
 namespace Tkotosz\CatalogRouter\Plugin;
 
 use Tkotosz\CatalogRouter\Api\CatalogUrlProviderInterface;
-use Tkotosz\CatalogRouter\Model\Exception\CatalogEntityNotFoundException;
+use Tkotosz\CatalogRouter\Model\Exception\EntityDataNotFoundException;
 use Tkotosz\CatalogRouter\Model\Service\StoreIdResolver;
 use Magento\Catalog\Model\Category;
 use Closure;
@@ -41,7 +41,7 @@ class CategoryUrl
         try {
             $storeId = $this->storeIdResolver->resolve($category);
             $url = $this->catalogUrlProvider->getCategoryUrl($category->getId(), $storeId);
-        } catch (CatalogEntityNotFoundException $e) {
+        } catch (EntityDataNotFoundException $e) {
             $url = $proceed();
         }
 

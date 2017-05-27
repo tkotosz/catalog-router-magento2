@@ -3,8 +3,8 @@
 namespace Tkotosz\CatalogRouter\Model\Service\CategoryResolver;
 
 use Tkotosz\CatalogRouter\Api\CategoryResolverInterface;
-use Tkotosz\CatalogRouter\Model\CatalogEntity;
-use Tkotosz\CatalogRouter\Model\Exception\CatalogEntityNotFoundException;
+use Tkotosz\CatalogRouter\Model\EntityData;
+use Tkotosz\CatalogRouter\Model\Exception\EntityDataNotFoundException;
 use Magento\Catalog\Model\Category;
 use Magento\Catalog\Model\ResourceModel\Category\CollectionFactory as CategoryCollectionFactory;
 use Magento\Store\Model\StoreManagerInterface;
@@ -38,9 +38,9 @@ class CategoryResolver implements CategoryResolverInterface
      * @param int    $storeId
      * @param int    $parentId
      *
-     * @return CatalogEntity
+     * @return EntityData
      */
-    public function resolveByUrlKey(string $urlKey, int $storeId, int $parentId) : CatalogEntity
+    public function resolveByUrlKey(string $urlKey, int $storeId, int $parentId) : EntityData
     {
         $categoryId = $this->categoryCollectionFactory->create()
             ->setStoreId($storeId)
@@ -50,10 +50,10 @@ class CategoryResolver implements CategoryResolverInterface
             ->getId();
 
         if (!$categoryId) {
-            throw new CatalogEntityNotFoundException('Category does not exist');
+            throw new EntityDataNotFoundException('Category does not exist');
         }
 
-        return new CatalogEntity('category', $categoryId, $urlKey);
+        return new EntityData('category', $categoryId, $urlKey);
     }
 
     /**
@@ -61,7 +61,7 @@ class CategoryResolver implements CategoryResolverInterface
      * @param int    $storeId
      * @param int    $parentId
      *
-     * @return CatalogEntity[]
+     * @return EntityData[]
      */
     public function resolveAllByUrlKey(string $urlKey, int $storeId, int $parentId) : array
     {
@@ -73,7 +73,7 @@ class CategoryResolver implements CategoryResolverInterface
             ->addFieldToFilter('parent_id', $parentId);
 
         foreach ($categoryCollection as $category) {
-            $categories[] = new CatalogEntity('category', $category->getId(), $urlKey);        
+            $categories[] = new EntityData('category', $category->getId(), $urlKey);        
         }
 
         return $categories;
@@ -83,9 +83,9 @@ class CategoryResolver implements CategoryResolverInterface
      * @param int $categoryId
      * @param int $storeId
      *
-     * @return CatalogEntity
+     * @return EntityData
      */
-    public function resolveById(int $categoryId, int $storeId) : CatalogEntity
+    public function resolveById(int $categoryId, int $storeId) : EntityData
     {
         $urlKey = $this->categoryCollectionFactory->create()
             ->setStoreId($storeId)
@@ -95,10 +95,10 @@ class CategoryResolver implements CategoryResolverInterface
             ->getUrlKey();
 
         if (!$urlKey) {
-            throw new CatalogEntityNotFoundException('Category does not exist');
+            throw new EntityDataNotFoundException('Category does not exist');
         }
 
-        return new CatalogEntity('category', $categoryId, $urlKey);
+        return new EntityData('category', $categoryId, $urlKey);
     }
 
     /**
@@ -115,7 +115,7 @@ class CategoryResolver implements CategoryResolverInterface
             ->getPath();
 
         if (!$idPath) {
-            throw new CatalogEntityNotFoundException('Category does not exist');
+            throw new EntityDataNotFoundException('Category does not exist');
         }
 
         $parents = explode('/', $idPath);

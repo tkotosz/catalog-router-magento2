@@ -4,8 +4,8 @@ namespace Tkotosz\CatalogRouter\Model\Service\ProductResolver;
 
 use Tkotosz\CatalogRouter\Api\CacheInterface;
 use Tkotosz\CatalogRouter\Api\ProductResolverInterface;
-use Tkotosz\CatalogRouter\Model\CatalogEntity;
-use Tkotosz\CatalogRouter\Model\Exception\CatalogEntityNotFoundException;
+use Tkotosz\CatalogRouter\Model\EntityData;
+use Tkotosz\CatalogRouter\Model\Exception\EntityDataNotFoundException;
 use Magento\Catalog\Model\ResourceModel\ProductFactory;
 use Magento\Catalog\Model\ResourceModel\Product\CollectionFactory as ProductCollectionFactory;
 use Magento\Store\Model\StoreManagerInterface;
@@ -40,9 +40,9 @@ class CachedProductResolver implements ProductResolverInterface
      * @param string $urlKey
      * @param int    $storeId
      *
-     * @return CatalogEntity
+     * @return EntityData
      */
-    public function resolveByUrlKey(string $urlKey, int $storeId) : CatalogEntity
+    public function resolveByUrlKey(string $urlKey, int $storeId) : EntityData
     {
         $cacheKey = implode('_', [self::CACHE_KEY_RESOLVE_BY_URL_KEY, $urlKey, $storeId]);
 
@@ -58,7 +58,7 @@ class CachedProductResolver implements ProductResolverInterface
      * @param string $urlKey
      * @param int    $storeId
      *
-     * @return CatalogEntity[]
+     * @return EntityData[]
      */
     public function resolveAllByUrlKey(string $urlKey, int $storeId) : array
     {
@@ -69,9 +69,9 @@ class CachedProductResolver implements ProductResolverInterface
      * @param int $productId
      * @param int $storeId
      *
-     * @return CatalogEntity
+     * @return EntityData
      */
-    public function resolveById(int $productId, int $storeId) : CatalogEntity
+    public function resolveById(int $productId, int $storeId) : EntityData
     {
         $cacheKey = implode('_', [self::CACHE_KEY_RESOLVE_BY_ID, $productId, $storeId]);
 

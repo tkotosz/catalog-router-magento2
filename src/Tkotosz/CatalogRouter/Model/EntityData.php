@@ -2,7 +2,7 @@
 
 namespace Tkotosz\CatalogRouter\Model;
 
-class CatalogEntity
+class EntityData
 {
     /**
      * @var string

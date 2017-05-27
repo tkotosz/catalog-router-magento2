@@ -3,8 +3,8 @@
 namespace Tkotosz\CatalogRouter\Model\Service\ProductResolver;
 
 use Tkotosz\CatalogRouter\Api\ProductResolverInterface;
-use Tkotosz\CatalogRouter\Model\CatalogEntity;
-use Tkotosz\CatalogRouter\Model\Exception\CatalogEntityNotFoundException;
+use Tkotosz\CatalogRouter\Model\EntityData;
+use Tkotosz\CatalogRouter\Model\Exception\EntityDataNotFoundException;
 use Magento\Catalog\Model\ResourceModel\ProductFactory;
 use Magento\Catalog\Model\ResourceModel\Product\CollectionFactory as ProductCollectionFactory;
 use Magento\Store\Model\StoreManagerInterface;
@@ -37,9 +37,9 @@ class ProductResolver implements ProductResolverInterface
      * @param string $urlKey
      * @param int    $storeId
      *
-     * @return CatalogEntity
+     * @return EntityData
      */
-    public function resolveByUrlKey(string $urlKey, int $storeId) : CatalogEntity
+    public function resolveByUrlKey(string $urlKey, int $storeId) : EntityData
     {
         $productId = $this->productCollectionFactory->create()
             ->addStoreFilter($storeId)
@@ -48,17 +48,17 @@ class ProductResolver implements ProductResolverInterface
             ->getId();
 
         if (!$productId) {
-            throw new CatalogEntityNotFoundException('Product does not exist');
+            throw new EntityDataNotFoundException('Product does not exist');
         }
 
-        return new CatalogEntity('product', $productId, $urlKey);
+        return new EntityData('product', $productId, $urlKey);
     }
 
     /**
      * @param string $urlKey
      * @param int    $storeId
      *
-     * @return CatalogEntity[]
+     * @return EntityData[]
      */
     public function resolveAllByUrlKey(string $urlKey, int $storeId) : array
     {
@@ -69,7 +69,7 @@ class ProductResolver implements ProductResolverInterface
             ->addAttributeToFilter('url_key', $urlKey);
 
         foreach ($productCollection as $product) {
-            $products[] = new CatalogEntity('product', $product->getId(), $urlKey);        
+            $products[] = new EntityData('product', $product->getId(), $urlKey);        
         }
 
         return $products;
@@ -79,9 +79,9 @@ class ProductResolver implements ProductResolverInterface
      * @param int $productId
      * @param int $storeId
      *
-     * @return CatalogEntity
+     * @return EntityData
      */
-    public function resolveById(int $productId, int $storeId) : CatalogEntity
+    public function resolveById(int $productId, int $storeId) : EntityData
     {
         $urlKey = $this->productCollectionFactory->create()
             ->addStoreFilter($storeId)
@@ -91,10 +91,10 @@ class ProductResolver implements ProductResolverInterface
             ->getUrlKey();
 
         if (!$urlKey) {
-            throw new CatalogEntityNotFoundException('Product does not exist');
+            throw new EntityDataNotFoundException('Product does not exist');
         }
 
-        return new CatalogEntity('product', $productId, $urlKey);
+        return new EntityData('product', $productId, $urlKey);
     }
 
     /**

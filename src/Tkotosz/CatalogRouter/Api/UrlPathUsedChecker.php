@@ -3,7 +3,7 @@
 namespace Tkotosz\CatalogRouter\Api;
 
 use Tkotosz\CatalogRouter\Model\UrlPath;
-use Tkotosz\CatalogRouter\Model\UrlPathUsageInfo;
+use Tkotosz\CatalogRouter\Model\EntityData;
 
 interface UrlPathUsedChecker
 {
@@ -11,7 +11,7 @@ interface UrlPathUsedChecker
      * @param UrlPath $urlPath
      * @param int     $storeId
      *
-     * @return UrlPathUsageInfo[]
+     * @return EntityData[]
      */
     public function check(UrlPath $urlPath, int $storeId) : array;
 }

@@ -2,7 +2,7 @@
 
 namespace Tkotosz\CatalogRouter\Api;
 
-use Tkotosz\CatalogRouter\Model\CatalogEntity;
+use Tkotosz\CatalogRouter\Model\EntityData;
 
 interface CategoryResolverInterface
 {
@@ -11,17 +11,17 @@ interface CategoryResolverInterface
      * @param int $storeId
      * @param int $parentId
      *
-     * @return CatalogEntity
+     * @return EntityData
      */
-    public function resolveByUrlKey(string $urlKey, int $storeId, int $parentId) : CatalogEntity;
+    public function resolveByUrlKey(string $urlKey, int $storeId, int $parentId) : EntityData;
 
     /**
      * @param int $categoryId
      * @param int $storeId
      *
-     * @return CatalogEntity
+     * @return EntityData
      */
-    public function resolveById(int $categoryId, int $storeId) : CatalogEntity;
+    public function resolveById(int $categoryId, int $storeId) : EntityData;
 
     /**
      * @param int $categoryId

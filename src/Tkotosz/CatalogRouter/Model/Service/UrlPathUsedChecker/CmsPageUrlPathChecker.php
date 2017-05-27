@@ -5,7 +5,7 @@ namespace Tkotosz\CatalogRouter\Model\Service\UrlPathUsedChecker;
 use Magento\Cms\Model\ResourceModel\Page\CollectionFactory as CmsPageCollectionFactory;
 use Tkotosz\CatalogRouter\Api\UrlPathUsedChecker;
 use Tkotosz\CatalogRouter\Model\UrlPath;
-use Tkotosz\CatalogRouter\Model\UrlPathUsageInfo;
+use Tkotosz\CatalogRouter\Model\EntityData;
 
 class CmsPageUrlPathChecker implements UrlPathUsedChecker
 {
@@ -26,7 +26,7 @@ class CmsPageUrlPathChecker implements UrlPathUsedChecker
      * @param UrlPath $urlPath
      * @param int     $storeId
      *
-     * @return UrlPathUsageInfo[]
+     * @return EntityData[]
      */
     public function check(UrlPath $urlPath, int $storeId) : array
     {
@@ -37,7 +37,7 @@ class CmsPageUrlPathChecker implements UrlPathUsedChecker
             ->addFieldToFilter('identifier', $urlPath->getLastPart());
 
         foreach ($pageCollection as $page) {
-            $result[] = new UrlPathUsageInfo($page->getId(), 'cms page');    
+            $result[] = new EntityData('cms page', $page->getId());    
         }
 
         return $result;

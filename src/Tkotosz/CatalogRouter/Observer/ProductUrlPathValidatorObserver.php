@@ -9,7 +9,7 @@ use Magento\Store\Model\StoreManagerInterface;
 use Tkotosz\CatalogRouter\Api\ProductResolverInterface;
 use Tkotosz\CatalogRouter\Model\Service\UrlPathUsedCheckerContainer;
 use Tkotosz\CatalogRouter\Model\UrlPath;
-use Tkotosz\CatalogRouter\Model\UrlPathUsageInfo;
+use Tkotosz\CatalogRouter\Model\EntityData;
 
 class ProductUrlPathValidatorObserver implements ObserverInterface
 {
@@ -58,14 +58,14 @@ class ProductUrlPathValidatorObserver implements ObserverInterface
                 $store = $this->storeManager->getStore($storeId);
                 $messages = [];
                 foreach ($resolvedEntities as $entity) {
-                    if ($entity->getEntityType() == 'product' && $entity->getEntityId() == $product->getId()) {
+                    if ($entity->getType() == 'product' && $entity->getId() == $product->getId()) {
                         continue;
                     }
                     $messages[] = __(
                         'The "%1" url path already used by a %2 with id %3 in the %4 (storeid: %5) store',
                         $urlPath->getIdentifier(),
-                        $entity->getEntityType(),
-                        $entity->getEntityId(),
+                        $entity->getType(),
+                        $entity->getId(),
                         $store->getName(),
                         $store->getId()
                     );

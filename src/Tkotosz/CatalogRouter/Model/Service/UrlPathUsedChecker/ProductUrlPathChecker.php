@@ -5,7 +5,7 @@ namespace Tkotosz\CatalogRouter\Model\Service\UrlPathUsedChecker;
 use Tkotosz\CatalogRouter\Api\ProductResolverInterface;
 use Tkotosz\CatalogRouter\Api\UrlPathUsedChecker;
 use Tkotosz\CatalogRouter\Model\UrlPath;
-use Tkotosz\CatalogRouter\Model\UrlPathUsageInfo;
+use Tkotosz\CatalogRouter\Model\EntityData;
 
 class ProductUrlPathChecker implements UrlPathUsedChecker
 {
@@ -26,16 +26,10 @@ class ProductUrlPathChecker implements UrlPathUsedChecker
      * @param UrlPath $urlPath
      * @param int     $storeId
      *
-     * @return UrlPathUsageInfo[]
+     * @return EntityData[]
      */
     public function check(UrlPath $urlPath, int $storeId) : array
     {
-        $result = [];
-
-        foreach ($this->productResolver->resolveAllByUrlKey($urlPath->getLastPart(), $storeId) as $product) {
-            $result[] = new UrlPathUsageInfo($product->getId(), 'product');
-        }
-
-        return $result;
+        return $this->productResolver->resolveAllByUrlKey($urlPath->getLastPart(), $storeId);
     }
 }

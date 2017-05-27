@@ -7,7 +7,7 @@ use Tkotosz\CatalogRouter\Api\CategoryResolverInterface;
 use Tkotosz\CatalogRouter\Api\ProductResolverInterface;
 use Tkotosz\CatalogRouter\Api\UrlPathUsedChecker;
 use Tkotosz\CatalogRouter\Model\UrlPath;
-use Tkotosz\CatalogRouter\Model\UrlPathUsageInfo;
+use Tkotosz\CatalogRouter\Model\EntityData;
 
 class CategoryUrlPathChecker implements UrlPathUsedChecker
 {
@@ -35,19 +35,13 @@ class CategoryUrlPathChecker implements UrlPathUsedChecker
      * @param UrlPath $urlPath
      * @param int     $storeId
      *
-     * @return UrlPathUsageInfo[]
+     * @return EntityData[]
      */
     public function check(UrlPath $urlPath, int $storeId) : array
     {
-        $result = [];
-
         $parentCategoryId = $this->resolveParentCategoryId($urlPath, $storeId);
 
-        foreach ($this->categoryResolver->resolveAllByUrlKey($urlPath->getLastPart(), $storeId, $parentCategoryId) as $category) {
-            $result[] = new UrlPathUsageInfo($category->getId(), 'category');
-        }
-
-        return $result;
+        return $this->categoryResolver->resolveAllByUrlKey($urlPath->getLastPart(), $storeId, $parentCategoryId);
     }
 
     /**
