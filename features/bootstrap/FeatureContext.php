@@ -9,7 +9,7 @@ use Behat\Gherkin\Node\TableNode;
 use Fixtures\CategoryResolver;
 use Fixtures\ProductResolver;
 use Fixtures\StoreManager;
-use Tkotosz\CatalogRouter\Model\Exception\CatalogEntityNotFoundException;
+use Tkotosz\CatalogRouter\Model\Exception\EntityDataNotFoundException;
 use Tkotosz\CatalogRouter\Model\Service\CatalogUrlPathResolver;
 use Tkotosz\CatalogRouter\Model\UrlPath;
 use Magento\Framework\DataObject as Category;
@@ -209,7 +209,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
             if ($resolvedCategory->getId() !== $category->getId()) {
                 throw new \Exception(sprintf("Expected category '%s' but got '%s'", $category->getId(), $resolvedCategory->getId()));
             }
-        } catch (CatalogEntityNotFoundException $e) {
+        } catch (EntityDataNotFoundException $e) {
             throw new \Exception('Url was not resolved to any category');
         }
     }
@@ -224,7 +224,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
             if ($resolvedProduct->getId() !== $product->getId()) {
                 throw new \Exception(sprintf("Expected product '%s' but got '%s'", $product->getId(), $resolvedProduct->getId()));
             }
-        } catch (CatalogEntityNotFoundException $e) {
+        } catch (EntityDataNotFoundException $e) {
             throw new \Exception('Url was not resolved to any product');
         }
     }
@@ -237,7 +237,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
         try {
             $resolvedCategory = $this->urlPathResolver->resolve($this->currentUrlPath, $this->currentStore->getId());
             throw new \Exception(sprintf("Url was not resolved to '%s' category", $resolvedCategory->getId()));
-        } catch (CatalogEntityNotFoundException $e) {
+        } catch (EntityDataNotFoundException $e) {
             // everything ok, url was not resolved aka 404
         }
     }
