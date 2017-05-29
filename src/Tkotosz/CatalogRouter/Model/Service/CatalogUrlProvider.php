@@ -8,7 +8,7 @@ use Tkotosz\CatalogRouter\Api\CatalogUrlPathProviderInterface;
 use Tkotosz\CatalogRouter\Api\CatalogUrlProviderInterface;
 
 class CatalogUrlProvider implements CatalogUrlProviderInterface
-{   
+{
     /**
      * @var CatalogUrlPathProviderInterface
      */
