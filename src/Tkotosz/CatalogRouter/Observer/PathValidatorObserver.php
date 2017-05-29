@@ -7,6 +7,7 @@ use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Exception\AlreadyExistsException;
 use Magento\Framework\Model\AbstractModel;
+use Magento\Store\Model\Store;
 use Magento\Store\Model\StoreManagerInterface;
 use Tkotosz\CatalogRouter\Api\CatalogUrlPathProviderInterface;
 use Tkotosz\CatalogRouter\Model\EntityData;
@@ -15,6 +16,8 @@ use Tkotosz\CatalogRouter\Model\UrlPath;
 
 abstract class PathValidatorObserver implements ObserverInterface
 {
+    const ERROR_MESSAGE = 'The "%1" url path already used by a <a href="%2" target="_blank">%3 (id: %4)</a> in the %5 (id: %6) store';
+
     /**
      * @var UrlPathUsedCheckerContainer
      */
@@ -74,7 +77,8 @@ abstract class PathValidatorObserver implements ObserverInterface
             $resolvedEntities = $this->getOtherEntitiesWithPath($urlPath, $storeId, $entity);
 
             if (count($resolvedEntities) > 0) {
-                throw new AlreadyExistsException($this->getErrorMessage($urlPath, $storeId, $resolvedEntities));
+                $store = $this->storeManager->getStore($storeId);
+                throw new AlreadyExistsException($this->getErrorMessage($urlPath, $store, $resolvedEntities));
             }
         }
     }
@@ -96,21 +100,15 @@ abstract class PathValidatorObserver implements ObserverInterface
         return $resolvedEntities;
     }
 
-    protected function getErrorMessage(UrlPath $urlPath, int $storeId, array $entities)
+    protected function getErrorMessage(UrlPath $urlPath, Store $store, array $entities)
     {
         $messages = [];
-
-        $store = $this->storeManager->getStore($storeId);
         
         foreach ($entities as $entity) {
-            $editUrlPath = $this->entityEditUrls[$entity->getType()]['url_path'];
-            $idParam = $this->entityEditUrls[$entity->getType()]['id_param'];
-            $editUrl = $this->urlProvider->getUrl($editUrlPath, [$idParam => $entity->getId()]);
-
             $messages[] = __(
-                'The "%1" url path already used by a <a href="%2" target="_blank">%3 (id: %4)</a> in the %5 (id: %6) store',
+                self::ERROR_MESSAGE,
                 $urlPath->getFullPath(),
-                $editUrl,
+                $this->getEntityEditUrl($entity),
                 $entity->getType(),
                 $entity->getId(),
                 $store->getName(),
@@ -119,6 +117,14 @@ abstract class PathValidatorObserver implements ObserverInterface
         }
 
         return __(join("<br>", $messages));
+    }
+
+    protected function getEntityEditUrl(EntityData $entity)
+    {
+        $editUrlPath = $this->entityEditUrls[$entity->getType()]['url_path'];
+        $idParam = $this->entityEditUrls[$entity->getType()]['id_param'];
+        
+        return $this->urlProvider->getUrl($editUrlPath, [$idParam => $entity->getId()]);
     }
 
     abstract protected function getCurrentEntityType();

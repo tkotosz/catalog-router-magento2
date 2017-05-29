@@ -6,8 +6,9 @@ use Magento\Store\Model\StoreManagerInterface;
 use Tkotosz\CatalogRouter\Api\CategoryResolverInterface;
 use Tkotosz\CatalogRouter\Api\ProductResolverInterface;
 use Tkotosz\CatalogRouter\Api\UrlPathUsedChecker;
-use Tkotosz\CatalogRouter\Model\UrlPath;
 use Tkotosz\CatalogRouter\Model\EntityData;
+use Tkotosz\CatalogRouter\Model\Service\CatalogUrlPathResolver;
+use Tkotosz\CatalogRouter\Model\UrlPath;
 
 class CategoryUrlPathChecker implements UrlPathUsedChecker
 {
@@ -22,13 +23,23 @@ class CategoryUrlPathChecker implements UrlPathUsedChecker
     private $storeManager;
     
     /**
+     * @var CatalogUrlPathResolver
+     */
+    private $catalogUrlPathResolver;
+    
+    /**
      * @param CategoryResolverInterface $categoryResolver
      * @param StoreManagerInterface     $storeManager
+     * @param CatalogUrlPathResolver    $catalogUrlPathResolver
      */
-    public function __construct(CategoryResolverInterface $categoryResolver, StoreManagerInterface $storeManager)
-    {
+    public function __construct(
+        CategoryResolverInterface $categoryResolver,
+        StoreManagerInterface $storeManager,
+        CatalogUrlPathResolver $catalogUrlPathResolver
+    ) {
         $this->categoryResolver = $categoryResolver;
         $this->storeManager = $storeManager;
+        $this->catalogUrlPathResolver = $catalogUrlPathResolver;
     }
     
     /**
@@ -39,25 +50,8 @@ class CategoryUrlPathChecker implements UrlPathUsedChecker
      */
     public function check(UrlPath $urlPath, int $storeId) : array
     {
-        $parentCategoryId = $this->resolveParentCategoryId($urlPath, $storeId);
+        $parentCategoryId = $this->catalogUrlPathResolver->resolveParentCategoryId($urlPath, $storeId);
 
         return $this->categoryResolver->resolveAllByUrlKey($urlPath->getLastPart(), $storeId, $parentCategoryId);
-    }
-
-    /**
-     * @param UrlPath $urlPath
-     * @param int     $storeId
-     *
-     * @return int
-     */
-    private function resolveParentCategoryId(UrlPath $urlPath, int $storeId) : int
-    {
-        $parentCategoryId = $this->storeManager->getStore($storeId)->getRootCategoryId();
-
-        foreach ($urlPath->getBeginningParts() as $urlKey) {
-            $parentCategoryId = $this->categoryResolver->resolveByUrlKey($urlKey, $storeId, $parentCategoryId)->getId();
-        }
-
-        return $parentCategoryId;
     }
 }

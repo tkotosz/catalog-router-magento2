@@ -66,7 +66,7 @@ class CatalogUrlPathResolver
      *
      * @return int
      */
-    private function resolveParentCategoryId(UrlPath $urlPath, int $storeId) : int
+    public function resolveParentCategoryId(UrlPath $urlPath, int $storeId) : int
     {
         $parentCategoryId = $this->storeManager->getStore($storeId)->getRootCategoryId();
 
