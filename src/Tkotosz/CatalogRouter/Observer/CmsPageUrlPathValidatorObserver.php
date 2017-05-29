@@ -7,35 +7,31 @@ use Magento\Framework\Model\AbstractModel;
 use Tkotosz\CatalogRouter\Model\UrlPath;
 use Tkotosz\CatalogRouter\Observer\PathValidatorObserver;
 
-class CategoryUrlPathValidatorObserver extends PathValidatorObserver
+class CmsPageUrlPathValidatorObserver extends PathValidatorObserver
 {
     protected function getCurrentEntityType()
     {
-        return 'category';
+        return 'cms page';
     }
 
     protected function getEntity(Observer $observer)
     {
-        return $observer->getEvent()->getCategory();
+        return $observer->getEvent()->getObject();
     }
 
     protected function getEntityStoreIds(AbstractModel $entity)
     {
-        $storeIds = [];
+        $stores = $entity->getStores();
 
-        foreach ($entity->getStoreIds() as $storeId) {
-            if ($storeId == 0) {
-                continue;
-            }
-
-            $storeIds[] = $storeId;
+        if ($stores == [0]) {
+            $stores = array_keys($this->storeManager->getStores());
         }
 
-        return $storeIds;
+        return $stores;
     }
 
     protected function getEntityUrlPath(AbstractModel $entity, int $storeId)
     {
-        return $this->urlPathProvider->getProductUrlPath($entity->getId(), $storeId);
+        return new UrlPath($entity->getIdentifier());
     }
 }

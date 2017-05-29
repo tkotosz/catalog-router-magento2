@@ -25,6 +25,25 @@
         </arguments>
     </type>
 
+    <type name="Tkotosz\CatalogRouter\Observer\PathValidatorObserver">
+        <arguments>
+            <argument name="entityEditUrls" xsi:type="array">
+                <item name="product" xsi:type="array">
+                    <item name="url_path" xsi:type="string">catalog/product/edit</item>
+                    <item name="id_param" xsi:type="string">id</item>
+                </item>
+                <item name="category" xsi:type="array">
+                    <item name="url_path" xsi:type="string">catalog/category/edit</item>
+                    <item name="id_param" xsi:type="string">id</item>
+                </item>
+                <item name="cms page" xsi:type="array">
+                    <item name="url_path" xsi:type="string">cms/page/edit</item>
+                    <item name="id_param" xsi:type="string">page_id</item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+
     <type name="Tkotosz\CatalogRouter\Model\Service\UrlPathUsedCheckerContainer">
         <arguments>
             <argument name="checkers" xsi:type="array">

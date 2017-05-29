@@ -2,80 +2,29 @@
 
 namespace Tkotosz\CatalogRouter\Observer;
 
-use Magento\Catalog\Model\Product;
 use Magento\Framework\Event\Observer;
-use Magento\Framework\Event\ObserverInterface;
-use Magento\Store\Model\StoreManagerInterface;
-use Tkotosz\CatalogRouter\Api\CatalogUrlPathProviderInterface;
-use Tkotosz\CatalogRouter\Api\ProductResolverInterface;
-use Tkotosz\CatalogRouter\Model\EntityData;
-use Tkotosz\CatalogRouter\Model\Service\UrlPathUsedCheckerContainer;
-use Tkotosz\CatalogRouter\Model\UrlPath;
+use Magento\Framework\Model\AbstractModel;
+use Tkotosz\CatalogRouter\Observer\PathValidatorObserver;
 
-class ProductUrlPathValidatorObserver implements ObserverInterface
+class ProductUrlPathValidatorObserver extends PathValidatorObserver
 {
-    /**
-     * @var UrlPathUsedCheckerContainer
-     */
-    private $urlPathUsedChecker;
-    
-    /**
-     * @var StoreManagerInterface
-     */
-    private $storeManager;
-    
-    /**
-     * @var CatalogUrlPathProviderInterface
-     */
-    private $urlPathProvider;
-    
-    /**
-     * @param UrlPathUsedCheckerContainer     $urlPathUsedChecker
-     * @param StoreManagerInterface           $storeManager
-     * @param CatalogUrlPathProviderInterface $urlPathProvider
-     */
-    public function __construct(
-        UrlPathUsedCheckerContainer $urlPathUsedChecker,
-        StoreManagerInterface $storeManager,
-        CatalogUrlPathProviderInterface $urlPathProvider
-    ) {
-        $this->urlPathUsedChecker = $urlPathUsedChecker;
-        $this->storeManager = $storeManager;
-        $this->urlPathProvider = $urlPathProvider;
-    }
-    
-    /**
-     * @param Observer $observer
-     * @return void
-     */
-    public function execute(Observer $observer)
+    protected function getCurrentEntityType()
     {
-        /** @var Product $product */
-        $product = $observer->getEvent()->getProduct();
+        return 'product';
+    }
 
-        foreach ($product->getStoreIds() as $storeId) {
-            $urlPath = $this->urlPathProvider->getProductUrlPath($product->getId(), $storeId);
-            $resolvedEntities = $this->urlPathUsedChecker->check($urlPath, $storeId);
+    protected function getEntity(Observer $observer)
+    {
+        return $observer->getEvent()->getProduct();
+    }
 
-            if (count($resolvedEntities) > 1) {
-                $store = $this->storeManager->getStore($storeId);
-                $messages = [];
-                foreach ($resolvedEntities as $entity) {
-                    if ($entity->getType() == 'product' && $entity->getId() == $product->getId()) {
-                        continue;
-                    }
-                    $messages[] = __(
-                        'The "%1" url path already used by a %2 with id %3 in the %4 (storeid: %5) store',
-                        $urlPath->getIdentifier(),
-                        $entity->getType(),
-                        $entity->getId(),
-                        $store->getName(),
-                        $store->getId()
-                    );
-                }
+    protected function getEntityStoreIds(AbstractModel $entity)
+    {
+        return $entity->getStoreIds();
+    }
 
-                throw new \Exception(join("<br>", $messages));
-            }
-        }
+    protected function getEntityUrlPath(AbstractModel $entity, int $storeId)
+    {
+        return $this->urlPathProvider->getProductUrlPath($entity->getId(), $storeId);
     }
 }
