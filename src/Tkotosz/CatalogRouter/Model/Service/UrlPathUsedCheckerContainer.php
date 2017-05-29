@@ -21,6 +21,12 @@ class UrlPathUsedCheckerContainer
         $this->checkers = $checkers;
     }
 
+    /**
+     * @param UrlPath $urlPath
+     * @param int     $storeId
+     *
+     * @return EntityData[]
+     */
     public function check(UrlPath $urlPath, int $storeId) : array
     {
         $result = [];
