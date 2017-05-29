@@ -16,6 +16,15 @@ interface CategoryResolverInterface
     public function resolveByUrlKey(string $urlKey, int $storeId, int $parentId) : EntityData;
 
     /**
+     * @param string $urlKey
+     * @param int    $storeId
+     * @param int    $parentId
+     *
+     * @return EntityData[]
+     */
+    public function resolveAllByUrlKey(string $urlKey, int $storeId, int $parentId) : array;
+
+    /**
      * @param int $categoryId
      * @param int $storeId
      *

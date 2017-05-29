@@ -14,6 +14,14 @@ interface ProductResolverInterface
     public function resolveByUrlKey(string $urlKey, int $storeId) : EntityData;
 
     /**
+     * @param string $urlKey
+     * @param int    $storeId
+     *
+     * @return EntityData[]
+     */
+    public function resolveAllByUrlKey(string $urlKey, int $storeId) : array;
+
+    /**
      * @param  int    $productId
      *
      * @return EntityData

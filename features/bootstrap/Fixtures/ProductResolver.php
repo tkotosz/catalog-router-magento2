@@ -50,13 +50,24 @@ class ProductResolver implements ProductResolverInterface
     }
 
     /**
+     * @param string $urlKey
+     * @param int    $storeId
+     *
+     * @return EntityData[]
+     */
+    public function resolveAllByUrlKey(string $urlKey, int $storeId) : array
+    {
+        throw new \Exception(__METHOD__ . 'Method not implemented');
+    }
+
+    /**
      * @param  int    $productId
      *
      * @return EntityData
      */
     public function resolveById(int $productId, int $storeId) : EntityData
     {
-        throw new EntityDataNotFoundException();
+        throw new \Exception(__METHOD__ . 'Method not implemented');
     }
 
     /**

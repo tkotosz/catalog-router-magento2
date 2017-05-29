@@ -44,6 +44,18 @@ class CategoryResolver implements CategoryResolverInterface
     }
 
     /**
+     * @param string $urlKey
+     * @param int    $storeId
+     * @param int    $parentId
+     *
+     * @return EntityData[]
+     */
+    public function resolveAllByUrlKey(string $urlKey, int $storeId, int $parentId) : array
+    {
+        throw new \Exception(__METHOD__ . 'Method not implemented');
+    }
+
+    /**
      * @param int $categoryId
      * @param int $storeId
      *
