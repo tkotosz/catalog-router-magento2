@@ -7,7 +7,7 @@ use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Exception\AlreadyExistsException;
 use Magento\Framework\Model\AbstractModel;
-use Magento\Store\Model\Store;
+use Magento\Store\Api\Data\StoreInterface;
 use Magento\Store\Model\StoreManagerInterface;
 use Tkotosz\CatalogRouter\Api\CatalogUrlPathProviderInterface;
 use Tkotosz\CatalogRouter\Model\EntityData;
@@ -100,7 +100,7 @@ abstract class PathValidatorObserver implements ObserverInterface
         return $resolvedEntities;
     }
 
-    protected function getErrorMessage(UrlPath $urlPath, Store $store, array $entities)
+    protected function getErrorMessage(UrlPath $urlPath, StoreInterface $store, array $entities)
     {
         $messages = [];
         
