@@ -20,9 +20,9 @@
     ],
     "require": {
         "php": ">=7.0",
-        "magento/framework": "^100.1",
-        "magento/module-catalog": "^101.0",
-        "magento/module-catalog-url-rewrite": "^100.1"
+        "magento/framework": "^100.1|^101.0",
+        "magento/module-catalog": "^101.0|^102.0",
+        "magento/module-catalog-url-rewrite": "^100.1|^100.2"
     },
     "require-dev": {
         "behat/behat": "^3.3"
