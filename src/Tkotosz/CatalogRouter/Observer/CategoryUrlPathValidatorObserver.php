@@ -36,6 +36,6 @@ class CategoryUrlPathValidatorObserver extends PathValidatorObserver
 
     protected function getEntityUrlPath(AbstractModel $entity, int $storeId)
     {
-        return $this->urlPathProvider->getProductUrlPath($entity->getId(), $storeId);
+        return $this->urlPathProvider->getCategoryUrlPath($entity->getId(), $storeId);
     }
 }
