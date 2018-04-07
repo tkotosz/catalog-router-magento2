@@ -30,6 +30,14 @@ class UrlPath
     {
         return $this->identifier;
     }
+
+    /**
+     * @return string
+     */
+    public function getFullPath() : string
+    {
+        return $this->getIdentifier();
+    }
     
     /**
      * @return string[]

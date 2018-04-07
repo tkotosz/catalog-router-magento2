@@ -3,8 +3,8 @@
 namespace Fixtures;
 
 use Tkotosz\CatalogRouter\Api\ProductResolverInterface;
-use Tkotosz\CatalogRouter\Model\CatalogEntity;
-use Tkotosz\CatalogRouter\Model\Exception\CatalogEntityNotFoundException;
+use Tkotosz\CatalogRouter\Model\EntityData;
+use Tkotosz\CatalogRouter\Model\Exception\EntityDataNotFoundException;
 use Magento\Catalog\Model\Category;
 use Magento\Store\Model\StoreManagerInterface;
 
@@ -33,30 +33,41 @@ class ProductResolver implements ProductResolverInterface
     /**
      * @param  string   $urlKey
      *
-     * @return CatalogEntity
+     * @return EntityData
      */
-    public function resolveByUrlKey(string $urlKey, int $storeId) : CatalogEntity
+    public function resolveByUrlKey(string $urlKey, int $storeId) : EntityData
     {
         foreach ($this->products as $product) {
             $urlKeys = $product->getData('url_key');
             $productUrlKeyInStore = isset($urlKeys[$storeId]) ? $urlKeys[$storeId] : $urlKeys[0];
 
             if ($productUrlKeyInStore == $urlKey) {
-                return new CatalogEntity('product', $product->getId(), $urlKey);
+                return new EntityData('product', $product->getId(), $urlKey);
             }
         }
 
-        throw new CatalogEntityNotFoundException('not found!');
+        throw new EntityDataNotFoundException('not found!');
+    }
+
+    /**
+     * @param string $urlKey
+     * @param int    $storeId
+     *
+     * @return EntityData[]
+     */
+    public function resolveAllByUrlKey(string $urlKey, int $storeId) : array
+    {
+        throw new \Exception(__METHOD__ . 'Method not implemented');
     }
 
     /**
      * @param  int    $productId
      *
-     * @return CatalogEntity
+     * @return EntityData
      */
-    public function resolveById(int $productId, int $storeId) : CatalogEntity
+    public function resolveById(int $productId, int $storeId) : EntityData
     {
-        throw new CatalogEntityNotFoundException();
+        throw new \Exception(__METHOD__ . 'Method not implemented');
     }
 
     /**

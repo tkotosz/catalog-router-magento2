@@ -2,7 +2,7 @@
 
 namespace Tkotosz\CatalogRouter\Controller;
 
-use Tkotosz\CatalogRouter\Model\Exception\CatalogEntityNotFoundException;
+use Tkotosz\CatalogRouter\Model\Exception\EntityDataNotFoundException;
 use Tkotosz\CatalogRouter\Model\Service\CatalogUrlPathResolver;
 use Tkotosz\CatalogRouter\Model\UrlPath;
 use Magento\Framework\App\ActionFactory;
@@ -70,7 +70,7 @@ class Router implements RouterInterface
             
             $request->setAlias(Url::REWRITE_REQUEST_PATH_ALIAS, $urlPath->getIdentifier());
             $result = $this->actionFactory->create(Forward::class);
-        } catch (CatalogEntityNotFoundException $e) {
+        } catch (EntityDataNotFoundException $e) {
             $result = null;
         }
 

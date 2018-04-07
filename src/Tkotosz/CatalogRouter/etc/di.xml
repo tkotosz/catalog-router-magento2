@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Tkotosz\CatalogRouter\Api\CatalogUrlPathProviderInterface" type="Tkotosz\CatalogRouter\Model\Service\CatalogUrlPathProvider" />
     <preference for="Tkotosz\CatalogRouter\Api\CatalogUrlProviderInterface" type="Tkotosz\CatalogRouter\Model\Service\CatalogUrlProvider" />
     <preference for="Tkotosz\CatalogRouter\Api\CategoryResolverInterface" type="Tkotosz\CatalogRouter\Model\Service\CategoryResolver\CachedCategoryResolver" />
     <preference for="Tkotosz\CatalogRouter\Api\ProductResolverInterface" type="Tkotosz\CatalogRouter\Model\Service\ProductResolver\CachedProductResolver" />
@@ -21,6 +22,35 @@
     <type name="Tkotosz\CatalogRouter\Model\Service\CatalogUrlProvider">
         <arguments>
             <argument name="urlProvider" xsi:type="object">Magento\Framework\Url</argument>
+        </arguments>
+    </type>
+
+    <type name="Tkotosz\CatalogRouter\Observer\PathValidatorObserver">
+        <arguments>
+            <argument name="entityEditUrls" xsi:type="array">
+                <item name="product" xsi:type="array">
+                    <item name="url_path" xsi:type="string">catalog/product/edit</item>
+                    <item name="id_param" xsi:type="string">id</item>
+                </item>
+                <item name="category" xsi:type="array">
+                    <item name="url_path" xsi:type="string">catalog/category/edit</item>
+                    <item name="id_param" xsi:type="string">id</item>
+                </item>
+                <item name="cms page" xsi:type="array">
+                    <item name="url_path" xsi:type="string">cms/page/edit</item>
+                    <item name="id_param" xsi:type="string">page_id</item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Tkotosz\CatalogRouter\Model\Service\UrlPathUsedCheckerContainer">
+        <arguments>
+            <argument name="checkers" xsi:type="array">
+                <item name="product_url_path_checker" xsi:type="object">Tkotosz\CatalogRouter\Model\Service\UrlPathUsedChecker\ProductUrlPathChecker</item>
+                <item name="category_url_path_checker" xsi:type="object">Tkotosz\CatalogRouter\Model\Service\UrlPathUsedChecker\CategoryUrlPathChecker</item>
+                <item name="cms_page_url_path_checker" xsi:type="object">Tkotosz\CatalogRouter\Model\Service\UrlPathUsedChecker\CmsPageUrlPathChecker</item>
+            </argument>
         </arguments>
     </type>
 

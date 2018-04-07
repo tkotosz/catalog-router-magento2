@@ -15,5 +15,3 @@ Note that:
 
 TODO:
 - Generate 301 redirects automatically when url key changed
-- Support generating product urls with category path
-- Validate url key when saving entities (category/product/cmspage/etc) to see if it is available

@@ -2,23 +2,31 @@
 
 namespace Tkotosz\CatalogRouter\Api;
 
-use Tkotosz\CatalogRouter\Model\CatalogEntity;
+use Tkotosz\CatalogRouter\Model\EntityData;
 
 interface ProductResolverInterface
 {
     /**
      * @param  string   $urlKey
      *
-     * @return CatalogEntity
+     * @return EntityData
      */
-    public function resolveByUrlKey(string $urlKey, int $storeId) : CatalogEntity;
+    public function resolveByUrlKey(string $urlKey, int $storeId) : EntityData;
+
+    /**
+     * @param string $urlKey
+     * @param int    $storeId
+     *
+     * @return EntityData[]
+     */
+    public function resolveAllByUrlKey(string $urlKey, int $storeId) : array;
 
     /**
      * @param  int    $productId
      *
-     * @return CatalogEntity
+     * @return EntityData
      */
-    public function resolveById(int $productId, int $storeId) : CatalogEntity;
+    public function resolveById(int $productId, int $storeId) : EntityData;
 
     /**
      * @param  int    $productId

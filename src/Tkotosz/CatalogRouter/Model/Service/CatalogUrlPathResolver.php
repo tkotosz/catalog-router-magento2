@@ -4,8 +4,8 @@ namespace Tkotosz\CatalogRouter\Model\Service;
 
 use Tkotosz\CatalogRouter\Api\CategoryResolverInterface;
 use Tkotosz\CatalogRouter\Api\ProductResolverInterface;
-use Tkotosz\CatalogRouter\Model\CatalogEntity;
-use Tkotosz\CatalogRouter\Model\Exception\CatalogEntityNotFoundException;
+use Tkotosz\CatalogRouter\Model\EntityData;
+use Tkotosz\CatalogRouter\Model\Exception\EntityDataNotFoundException;
 use Tkotosz\CatalogRouter\Model\UrlPath;
 use Magento\Store\Model\StoreManagerInterface;
 
@@ -45,15 +45,15 @@ class CatalogUrlPathResolver
      * @param UrlPath $urlPath
      * @param int     $storeId
      *
-     * @return CatalogEntity
+     * @return EntityData
      */
-    public function resolve(UrlPath $urlPath, int $storeId) : CatalogEntity
+    public function resolve(UrlPath $urlPath, int $storeId) : EntityData
     {
         $parentCategoryId = $this->resolveParentCategoryId($urlPath, $storeId);
         
         try {
             $entity = $this->resolveCategory($urlPath->getLastPart(), $storeId, $parentCategoryId);
-        } catch (CatalogEntityNotFoundException $e) {
+        } catch (EntityDataNotFoundException $e) {
             $entity = $this->resolveProductInCategory($urlPath->getLastPart(), $storeId, $parentCategoryId);
         }
 
@@ -66,7 +66,7 @@ class CatalogUrlPathResolver
      *
      * @return int
      */
-    private function resolveParentCategoryId(UrlPath $urlPath, int $storeId) : int
+    public function resolveParentCategoryId(UrlPath $urlPath, int $storeId) : int
     {
         $parentCategoryId = $this->storeManager->getStore($storeId)->getRootCategoryId();
 
@@ -82,9 +82,9 @@ class CatalogUrlPathResolver
      * @param int    $storeId
      * @param int    $parentCategoryId
      *
-     * @return CatalogEntity
+     * @return EntityData
      */
-    private function resolveCategory(string $urlKey, int $storeId, int $parentCategoryId) : CatalogEntity
+    private function resolveCategory(string $urlKey, int $storeId, int $parentCategoryId) : EntityData
     {
         return $this->categoryResolver->resolveByUrlKey($urlKey, $storeId, $parentCategoryId);
     }
@@ -94,16 +94,16 @@ class CatalogUrlPathResolver
      * @param int    $storeId
      * @param int    $categoryId
      *
-     * @return CatalogEntity
+     * @return EntityData
      */
-    private function resolveProductInCategory(string $urlKey, int $storeId, int $categoryId) : CatalogEntity
+    private function resolveProductInCategory(string $urlKey, int $storeId, int $categoryId) : EntityData
     {
         $product = $this->productResolver->resolveByUrlKey($urlKey, $storeId);
 
         $productCategoryIds = $this->productResolver->resolveCategoryIds($product->getId(), $storeId);
                 
         if (!in_array($categoryId, $productCategoryIds)) {
-            throw new CatalogEntityNotFoundException('product is not found in the given category');
+            throw new EntityDataNotFoundException('product is not found in the given category');
         }
 
         return $product;
